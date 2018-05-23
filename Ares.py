@@ -4,14 +4,15 @@ ares_quotes= \
 "How could i posibly help with that?",
 "I think you expect to much of me",
 "I'll do it later",
-"Just give me five more minutes!"
-"I don't want to"
-"Have you tried lemonade? Lemonade always works"
-"I'll have you know that i won't stupe down to such low levels"
-"Figure it out yourself"
-"Go ask marvin"
+"Just give me five more minutes!",
+"I don't want to",
+"Have you tried lemonade? Lemonade always works",
+"I'll have you know that i won't stupe down to such low levels",
+"Figure it out yourself",
+"Go ask marvin",
 "No",
-"I don't want to"
+"Why?",
+r"¯\_(ツ)_/¯",
 ]
 
 import praw
@@ -24,7 +25,7 @@ reddit = praw.Reddit('Ares')
 subreddit = reddit.subreddit("pythonforengineers")
 
     
-
+print (r"¯\_(ツ)_/¯")
 if not os.path.isfile("responded.txt"):
     comments_responded = []
 else:
