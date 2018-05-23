@@ -25,7 +25,6 @@ reddit = praw.Reddit('Ares')
 subreddit = reddit.subreddit("pythonforengineers")
 
     
-print (r"¯\_(ツ)_/¯")
 if not os.path.isfile("responded.txt"):
     comments_responded = []
 else:
