@@ -43,7 +43,7 @@ for comment in subreddit.stream.comments():
                 if not comment.body.find('\\') == -1:
                     stop = comment.body.find('\\')
                     expression = comment.body[(start+1):stop]
-                    
+                    expression = expression.replace("^", "**")
                     x=eval(expression)
                     while True:
                         try:
