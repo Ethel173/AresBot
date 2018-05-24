@@ -53,7 +53,6 @@ for comment in subreddit.stream.comments():
                                 f.write(comment.id + "\n")
                             break
                         except praw.exceptions.APIException:
-                            print("Waiting")
                             time.sleep(60)
                     
 
@@ -69,6 +68,5 @@ for comment in subreddit.stream.comments():
                             f.write(comment.id + "\n")
                         break
                     except praw.exceptions.APIException:
-                        print("Waiting")
                         time.sleep(60)
 
