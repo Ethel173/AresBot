@@ -26,13 +26,13 @@ class Bot():
 
         reddit = praw.Reddit('Ares')
         self.subreddit = reddit.subreddit(sub)
-        fil = "responded.txt"    
-        if not os.path.isfile(fil):
+        self.fil = "responded.txt"    
+        if not os.path.isfile(self.fil):
             self.comments_responded = []
-            with open(fil, "w") as f:
+            with open(self.fil, "w") as f:
                 pass
         else:
-            with open(fil, "r") as f:
+            with open(self.fil, "r") as f:
                 self.comments_responded = f.read()
                 self.comments_responded = self.comments_responded.split("\n")
                 self.comments_responded = list(filter(None, self.comments_responded))
@@ -51,8 +51,8 @@ class Bot():
                             while True:
                                 try:
                                     comment.reply(x)
-                                    comments_responded.append(comment.id)
-                                    with open(fil, "a") as f:
+                                    self.comments_responded.append(comment.id)
+                                    with open(self.fil, "a") as f:
                                         f.write(comment.id + "\n")
                                     break
                                 except praw.exceptions.APIException:
@@ -66,8 +66,8 @@ class Bot():
                 while True:
                     try:
                         comment.reply(ares_reply)
-                        comments_responded.append(comment.id)
-                        with open(fil, "a") as f:
+                        self.comments_responded.append(comment.id)
+                        with open(self.fil, "a") as f:
                             f.write(comment.id + "\n")
                         break
                     except praw.exceptions.APIException:
