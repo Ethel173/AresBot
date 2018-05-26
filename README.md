@@ -1,6 +1,6 @@
 # AresBot
 
-Small bot than can survey single subreddits can be called by including ares somwhere in a comment
+Small bot than can survey single subreddits and can be called by including ares somwhere in a comment
 
 current commands are:
 
