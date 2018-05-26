@@ -9,30 +9,24 @@ import os
 from bs4 import BeautifulSoup
 
 class crawler():
-    def __init__(self):
-        chrome_options = Options()
-        chrome_options.add_argument("--headless")
-        chrome_driver = "C:\\WorkFolder\\chromedriver.exe"
-        self.driver = webdriver.Chrome(chrome_options=chrome_options, executable_path=chrome_driver)
-
+    def __init__(self, wiki="https://www.wikipedia.org/wiki/"):
+        self.wiki = wiki
     def search(self, term):
-        self.driver.get("https://www.wikipedia.org/")
-        self.driver.maximize_window()
-
-        bar = self.driver.find_element_by_id("searchInput")
-        bar.clear()
-        bar.send_keys(term + "\n")
-
-        page = requests.get(self.driver.current_url)
+        term = term.replace(" ", "_")
+        page = requests.get(self.wiki + term)
         soup = BeautifulSoup(page.content, "html.parser")
 
         everything = (soup.get_text())
-        start = everything.find("From Wikipedia")
-        stop = start+750
-        removeNewline = re.sub(r'\n\s*\n', '\n\n', everything)
-        Nrelevant = removeNewline[start:stop]
-        result = Nrelevant + "\n...\nTo see the continuation go to {}".format(self.driver.current_url)
-
+        if self.wiki == "https://www.wikipedia.org/wiki/":
+            start = everything.find("From Wikipedia")
+            stop = start+750
+            removeNewline = re.sub(r'\n\s*\n', '\n\n', everything)
+            Nrelevant = removeNewline[start:stop]
+            searchPlace = Nrelevant.find("search")
+            lastRelevant = Nrelevant[(searchPlace+6):]
+            result = lastRelevant + "\n...\nTo see the continuation go to {}".format(self.wiki + term)
+        elif re.search("(.*).wikia.com/wiki/", self.wiki):
+            result = "I'm sorry but I can't extract information from fandom wikies \n\nHowever you can visit the page [here]({})".format(self.wiki + term)
         return result
 
 
