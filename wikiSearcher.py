@@ -26,7 +26,7 @@ class crawler():
             lastRelevant = Nrelevant[(searchPlace+6):]
             result = lastRelevant + "\n...\nTo see the continuation go to {}".format(self.wiki + term)
         elif re.search("(.*).wikia.com/wiki/", self.wiki):
-            result = "I'm sorry but I can't extract information from fandom wikies \n\nHowever you can visit the page [here]({})".format(self.wiki + term)
+            result = "I'm sorry but I can't extract information from fandom wikies as the information is not stored on the html file\n\nHowever you can visit the page [here]({})".format(self.wiki + term)
         return result
 
 
