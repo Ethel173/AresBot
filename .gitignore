@@ -1,6 +1,6 @@
 
 *.ini
 *.txt
-*.ini
+*.pyc
 praw.ini
 praw.ini
