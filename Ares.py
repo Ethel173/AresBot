@@ -40,27 +40,36 @@ class Bot():
                     self.descide(comment)
 
     def descide(self, comment):
-        if re.search("critChance(.*)", comment.body, re.I|re.M):
-            print("Found")
-            ob = re.search("critChance\((.*)\)", comment.body, re.I|re.M)
-            print(ob[1])
-            Calc = Calculator()
-            command = "Calc.critChance({})".format(ob[1])
-            message = eval(command)
-            self.comment(comment, message)
+        try:
+            if re.search("critChance\((.*)\)", comment.body, re.I|re.M):
+                ob = re.search("critChance\((.*)\)", comment.body, re.I|re.M)
+                print(ob[1])
+                Calc = Calculator()
+                command = "Calc.critChance({})".format(ob[1])
+                message = eval(command)
+                self.comment(comment, message)
 
-        elif re.search("statusProcs(.*)", comment.body, re.I|re.M):
-            ob = re.search("statusProcs(.*)", comment.body, re.I|re.M)
-            Calc = Calculator()
-            command = "Calc.statusProcs({})".format(ob[1])
-            message = eval(command)
-            self.comment(comment, message)
+            elif re.search("statusProcs\((.*)\)", comment.body, re.I|re.M):
+                ob = re.search("statusProcs\((.*)\)", comment.body, re.I|re.M)
+                Calc = Calculator()
+                command = "Calc.statusProcs({})".format(ob[1])
+                message = eval(command)
+                self.comment(comment, message)
+
+            elif re.search("rareItem\((.*)\)", comment.body, re.I|re.M):
+                ob = re.search("rareItem\((.*)\)", comment.body, re.I|re.M)
+                Calc = Calculator()
+                command = "Calc.rareChance({})".format(ob[1])
+                message = eval(command)
+                self.comment(comment, message)
+        except:
+            message = "I'm sorry, I don't understand what you mean.\nYou might have mistyped or filled in the values in a problematic way\nMy commands are:\n\n -critchance([critchance of your weapon], [number of bullets per shot], [multishot chance]\n\n -statusprocs([unmodded statuschance], [how many % +stauts chance the weapon has (i.e. 240 for 4 dualstat mods)], [number of bullets per shot], [multishot chance])\n\n -rareitem([number of radiant relics the squad intends to use], [number of flawless relics], [exceptinal relics], [intact relics]\n\n If you are certain you inputet everything correctly contact /u/Aereskiko or visit mu GitHub Page"
 
     def comment(self, comment, response):
         while True:
 
             try:
-                true_response = response + "\n\n--------------\n\nI'm a very small bot. If you wish to see the source code, give sudgestions or help you can do so [here](https://github.com/Areskiko/AresBot)"
+                true_response = response + "\n\n==========\n\nI'm a very small bot. If you wish to see the source code, give sudgestions or help you can do so [here](https://github.com/Areskiko/AresBot)"
                 comment.reply(true_response)
 
                 self.comments_responded.append(comment.id)

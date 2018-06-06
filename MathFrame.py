@@ -75,7 +75,20 @@ class Calculator(object):
 
         pA = pAgB * pB + pAnB * pnB
         
-        message = ("Due to multishot you'll either fire " + front + " pellets, or " + str(int(front)+1) + " pellets with a " + str(int(float("0."+str(back))*100)) + "% chance of getting the extra shot.\nThat means that you have an estimated guaranteed " + str(int(pAnB)) + " status procs or " + str(int(pAgB)) + " status procs per trigger pull respectively.\nThis gives an overall " + str(pA) + " status procs per trigger pull")
+        message = ("Due to multishot you'll either fire " + front + " pellets, or " + str(int(front)+1) + " pellets with a " + str(int(float("0."+str(back))*100)) + "% chance of getting the extra shot.\nThat means that you have an estimated " + str(int(pAnB)) + " or " + str(int(pAgB)) + " guaranteed status procs per trigger pull respectively.\nThis gives an overall " + str(pA) + " status procs per trigger pull")
+        return message
+
+    def rareChance(self, radiant, flawless, exceptional, intact):
+        tot = 0.0
+        if radiant > 0:
+            tot += self.komb.Bino_over(radiant, 1, 0.1)
+        if flawless > 0:
+            tot += self.komb.Bino_over(flawless, 1, 0.06)
+        if exceptional > 0:
+            tot += self.komb.Bino_over(exceptional, 1, 0.04)
+        if intact > 0:
+            tot += self.komb.Bino_over(intact, 1, 0.02)
+        message = "You have a " + str(tot*100) + "% chance of getting one or more rare drops"
         return message
     
 
