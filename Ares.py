@@ -3,6 +3,8 @@ ares_quotes= \
 "I'm sorry, I don't know what you want",
 ]
 
+# pylint: disable=W1401
+# pylint: disable=W0612
 import praw
 import random
 import re
@@ -10,7 +12,7 @@ import os
 import time
 import sys
 
-from wikiSearcher import crawler
+from MathFrame import Calculator
 
 class Bot():
     def __init__(self, sub):
@@ -34,52 +36,40 @@ class Bot():
     def begin(self):
         for comment in self.subreddit.stream.comments():
             if comment.id not in self.comments_responded:
-                if re.search("Ares", comment.body, re.IGNORECASE):
+                if re.search("", comment.body, re.IGNORECASE):
                     self.descide(comment)
 
     def descide(self, comment):
-        if not comment.body.find('/') == -1:
-            start = comment.body.find('/')
+        try:
+            if re.search("critChance\((.*)\)", comment.body, re.I|re.M):
+                ob = re.search("critChance\((.*)\)", comment.body, re.I|re.M)
+                print(ob[1])
+                Calc = Calculator()
+                command = "Calc.critChance({})".format(ob[1])
+                message = eval(command)
+                self.comment(comment, message)
 
-            if not comment.body.find('\\') == -1:
-                stop = comment.body.find('\\')
+            elif re.search("statusProcs\((.*)\)", comment.body, re.I|re.M):
+                ob = re.search("statusProcs\((.*)\)", comment.body, re.I|re.M)
+                Calc = Calculator()
+                command = "Calc.statusProcs({})".format(ob[1])
+                message = eval(command)
+                self.comment(comment, message)
 
-                expression = comment.body[(start+1):stop]
-                response = self.math(expression)
-                self.comment(comment, response)
-
-        elif re.search("search '(.*)'", comment.body):
-
-            obj = re.search("search '(.*)'", comment.body)
-            searchAble = obj.group(1)
-
-            if re.search("\[(.*)wikia\]", searchAble):
-
-                wiki = re.search("\[(.*)\]", searchAble)
-                wiki = wiki.group(1)
-                TheWiki = "http://" + wiki + ".com/wiki/" 
-                searchAble = searchAble.replace("["+wiki+"]", "")
-                self.TheWiki = TheWiki
-                myC = crawler(wiki=TheWiki)
-            else:
-                self.TheWiki = "https://www.wikipedia.org/wiki/"
-                myC = crawler()
-            reply = myC.search(searchAble)
-
-            self.comment(comment, reply)
-
-        else:
-            ares_reply = random.choice(ares_quotes)
-            self.comment(comment, ares_reply)
+            elif re.search("rareItem\((.*)\)", comment.body, re.I|re.M):
+                ob = re.search("rareItem\((.*)\)", comment.body, re.I|re.M)
+                Calc = Calculator()
+                command = "Calc.rareChance({})".format(ob[1])
+                message = eval(command)
+                self.comment(comment, message)
+        except:
+            message = "I'm sorry, I don't understand what you mean.\nYou might have mistyped or filled in the values in a problematic way\nMy commands are:\n\n -critchance([critchance of your weapon], [number of bullets per shot], [multishot chance]\n\n -statusprocs([unmodded statuschance], [how many % +stauts chance the weapon has (i.e. 240 for 4 dualstat mods)], [number of bullets per shot], [multishot chance])\n\n -rareitem([number of radiant relics the squad intends to use], [number of flawless relics], [exceptinal relics], [intact relics]\n\n If you are certain you inputet everything correctly contact /u/Aereskiko or visit mu GitHub Page"
 
     def comment(self, comment, response):
         while True:
 
             try:
-                if not "wikia" in self.TheWiki:
-                    true_response = "I found this:\n\n" + response + "\n\n--------------\n\nI'm a very small bot. If you wish to see the source code, give sudgestions or help you can do so [here](https://github.com/Areskiko/AresBot)"
-                else:
-                    true_response = response + "\n\n--------------\n\nI'm a very small bot. If you wish to see the source code, give sudgestions or help you can do so [here](https://github.com/Areskiko/AresBot)"
+                true_response = response + "\n\n==========\n\nI'm a very small bot. If you wish to see the source code, give sudgestions or help you can do so [here](https://github.com/Areskiko/AresBot)"
                 comment.reply(true_response)
 
                 self.comments_responded.append(comment.id)
@@ -91,10 +81,6 @@ class Bot():
             except praw.exceptions.APIException:
                 time.sleep(60)
 
-    def math(self, expression):
-        expression = expression.replace("^", "**")
-        x=eval(expression)
-        return x
 
-Ares = Bot("Warframe")
+Ares = Bot("pythonforengineers")
 Ares.begin()
