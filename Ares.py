@@ -82,5 +82,5 @@ class Bot():
                 time.sleep(60)
 
 
-Ares = Bot("pythonforengineers")
+Ares = Bot("Warframe")
 Ares.begin()
