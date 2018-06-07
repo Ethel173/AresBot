@@ -71,6 +71,7 @@ class Calculator(object):
         #Using the formla for total chance we get the actual chance of getting one or more crits
         pA = pAgB * pB + pAnB * pnB
         
+        #Ability to handle critlevels over 100% curtesy of Ethel173
         if oCc < 100:
             message = "You have a " + str(pA*100) + "% chance of getting one or more crits per trigger pull"
         else:
