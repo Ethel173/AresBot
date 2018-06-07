@@ -111,8 +111,9 @@ class Bot():
                     self.comments_responded.append(comment.id)
                     with open(self.fil, "a") as f:
                         f.write(comment.id + "\n")
-
-                break
+                    break
+                else:
+                    break
 
             except praw.exceptions.APIException:
                 #If exception due to quota wait for a minute and try again
