@@ -75,7 +75,7 @@ class Calculator(object):
         pA = pAgB * pB + pAnB * pnB
         #Ability to handle critlevels over 100% curtesy of Ethel173
         if oCc < 100:
-            message = "You have a " + str(pA*100) + "% chance of getting one or more crits per trigger pull"
+            message = "You have a " + str(round(pA,4)*100) + "% chance of getting one or more crits per trigger pull"
         else:
             message = "Seeing that your starting crit chance was over 100% you are guaranteed to get crits on everything.\nHowever you have a " + str(round(pA,4)*100) + "% chance of getting one or more crits of higher type per trigger pull"
         return message
