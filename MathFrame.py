@@ -44,12 +44,15 @@ class Calculator(object):
     def __init__(self):
         self.komb = KombinatoryCalculator(0)
 
-    def critChance(self, cc, pellets, multi):
+    def critChance(self, crit=0, pellets=1, multishot=0):
+        oCc = crit
         #A = crit, B = extra shot
 
         #Convert given stats to decimal chance
-        cc = cc/100
-        multi = multi/100
+        cc = crit/100
+        multi = multishot/100
+        if cc > 1:
+            cc = 1
 
         #Splits the number into berfore and after the . so 17.6 would give 17 and 6, this is to factor in the chance of getting an extra shot
         multi = multi + 1
@@ -68,16 +71,19 @@ class Calculator(object):
         #Using the formla for total chance we get the actual chance of getting one or more crits
         pA = pAgB * pB + pAnB * pnB
         
-        message = "You have a " + str(pA*100) + "% chance of getting one or more crits per trigger pull"
+        if oCc < 100:
+            message = "You have a " + str(pA*100) + "% chance of getting one or more crits per trigger pull"
+        else:
+            message = "Seeing that your starting crit chance was over 100% you are guaranteed to get crits on everything. However You have a " + str(pA*100) + "% chance of getting one or more crits of higher type per trigger pull"
         return message
 
-    def statusProcs(self, sc, sm, pellets, multi):
+    def statusProcs(self, chance=0, multiplier=0, pellets=1, multishot=0):
         #A = proc, B = extra shot
 
         #Convert given stats to decimal chance
-        sc = sc/100
-        sm = sm/100
-        multi = multi/100
+        sc = chance/100
+        sm = multiplier/100
+        multi = multishot/100
 
         #Splits the number into berfore and after the . so 17.6 would give 17 and 6, this is to factor in the chance of getting an extra shot
         multi = multi + 1
@@ -105,7 +111,7 @@ class Calculator(object):
         message = ("Due to multishot you'll either fire " + front + " pellets, or " + str(int(front)+1) + " pellets with a " + str(int(float("0."+str(back))*100)) + "% chance of getting the extra shot.\nThat means that you have an estimated " + str(int(pAnB)) + " or " + str(int(pAgB)) + " guaranteed status procs per trigger pull respectively.\nThis gives an overall " + str(pA) + " status procs per trigger pull")
         return message
 
-    def rareChance(self, radiant, flawless, exceptional, intact):
+    def rareChance(self, radiant=0, flawless=0, exceptional=0, intact=0):
         tot = 0.0
         #For every relic run the chance of getting one or more rares from the selection of relics
         if radiant > 0:
@@ -120,7 +126,7 @@ class Calculator(object):
         message = "You have a " + str(tot*100) + "% chance of getting one or more rare drops"
         return message
 
-    def armor(self, health, armor, dr=0):
+    def armor(self, health=0, armor=0, dr=0):
         dr = dr/100
         armorReduction = (armor) / (armor+300)
         dr += armorReduction
