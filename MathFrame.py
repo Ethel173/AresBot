@@ -119,6 +119,8 @@ class Calculator(object):
             
         message = "You have a " + str(tot*100) + "% chance of getting one or more rare drops"
         return message
+
+    
     
 
 if __name__ == "__main__":

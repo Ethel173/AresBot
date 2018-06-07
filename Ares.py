@@ -111,8 +111,10 @@ class Bot():
                     self.comments_responded.append(comment.id)
                     with open(self.fil, "a") as f:
                         f.write(comment.id + "\n")
+                    time.sleep(10)
                     break
                 else:
+                    time.sleep(10)
                     break
 
             except praw.exceptions.APIException:
@@ -126,7 +128,7 @@ class Bot():
 
     def should_respond(self, comment):
         reply_authors = list(map(lambda c: c.author, comment.replies.list()))
-        return comment.author != "AresBot" and "AresBot" not in reply_authors
+        return (comment.author != "AresBot" and "AresBot" not in reply_authors)
 
 
 
