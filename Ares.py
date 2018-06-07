@@ -84,11 +84,15 @@ class Bot():
                 #Get the return of the method
                 message = eval(command)
                 self.comment(comment, message)
+
+            
+            elif re.search("Pass the butter!", comment.body, re.I|re.M):
+                message = """I'm a bit preocupied with answering the questions of your fellow tenno, but if you make me a body i'm sure I can find the time to do so
+                    """
+                self.comment(comment, message)
+
             elif re.search("!AresManual", comment.body, re.I|re.M):
-                message = """User manual for AresBot:
-                -critChance([critchance shown in arsenal], [pellets the gun fires unmodded], [multi-shot chance]) this returns the chance of you getting one or more crits per triggerpull. If you get an answer over 100% this des NOT mean you'll get orangecrits. Multishot wont up the critchance,  you just have more tries. Keeping this in mind what a answer over 100% means is that you are likely to get more then one crit (two, three, four etc. bullets land a normal crit)
-                
-                -statusProcs(["""
+                message = "User manual for AresBot:-critChance([critchance shown in arsenal], [pellets the gun fires unmodded], [multi-shot chance]) this returns the chance of you getting one or more crits per triggerpull. If you get an answer over 100% this des NOT mean you'll get orangecrits. Multishot wont up the critchance,  you just have more tries. Keeping this in mind what a answer over 100% means is that you are likely to get more then one crit (two, three, four etc. bullets land a normal crit)\n\n-statusProcs([base status chance of weapon], [+status chance mods(60 for a single dualstat mod, 120 for two etc.], [Base pellets of the gun], [multi-shot chance])\n\n-rareItem([number of radiant relics], [excepltional], [flawless], [intact])\n\n-!AresManual\n\n-Pass the butter!\n\ncommands are case-insensitive so critChance is the same as cRiTcHaNcE\n\nalso remember that I only check the most recent posts, so if i'm not responding it might be because the post is to old"
                 self.comment(comment, message)
         except:
             #If something went wrong (most probably in the calcuations) write an apology
@@ -99,13 +103,14 @@ class Bot():
         while True:
 
             try:
-                #Adding the signature of the bot to the response gotten from the math portion
-                true_response = response + "\n\n==========\n\nI'm a very small bot. If you wish to see the source code, give suggestions or help you can do so [here](https://github.com/Areskiko/AresBot)"
-                comment.reply(true_response)
-                #Add the comment ID to the list, but also writing it down to the file
-                self.comments_responded.append(comment.id)
-                with open(self.fil, "a") as f:
-                    f.write(comment.id + "\n")
+                if self.should_respond(comment):
+                    #Adding the signature of the bot to the response gotten from the math portion
+                    true_response = response + "\n\n==========\n\nI'm a very small bot. If you wish to see the source code, give suggestions or help you can do so [here](https://github.com/Areskiko/AresBot)"
+                    comment.reply(true_response)
+                    #Add the comment ID to the list, but also writing it down to the file
+                    self.comments_responded.append(comment.id)
+                    with open(self.fil, "a") as f:
+                        f.write(comment.id + "\n")
 
                 break
 
@@ -117,6 +122,10 @@ class Bot():
                 print(str(e))
                 with open("error_messages.txt", "a") as f:
                     f.append(str(e))
+
+    def should_respond(self, comment):
+        reply_authors = list(map(lambda c: c.author, comment.replies.list()))
+        return comment.author != "AresBot" and "AresBot" not in reply_authors
 
 
 
