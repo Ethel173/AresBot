@@ -73,7 +73,7 @@ class Calculator(object):
         pnB = (1 - float("0."+str(back)))
         #Using the formla for total chance we get the actual chance of getting one or more crits
         pA = pAgB * pB + pAnB * pnB
-        
+        pA = round(pA, 4)
         #Ability to handle critlevels over 100% curtesy of Ethel173
         if oCc < 100:
             message = "You have a " + str(pA*100) + "% chance of getting one or more crits per trigger pull"
@@ -111,7 +111,7 @@ class Calculator(object):
         pnB = (1 - float("0."+str(back)))
         #pA is the total probability of A
         pA = pAgB * pB + pAnB * pnB
-        
+        pA = round(pA, 4)
         message = ("Due to multishot you'll either fire " + front + " pellets, or " + str(int(front)+1) + " pellets with a " + str(int(float("0."+str(back))*100)) + "% chance of getting the extra shot.\nThat means that you have an estimated " + str(int(pAnB)) + " or " + str(int(pAgB)) + " guaranteed status procs per trigger pull respectively.\nThis gives an overall " + str(pA) + " status procs per trigger pull")
         return message
 
@@ -126,7 +126,7 @@ class Calculator(object):
             tot += self.komb.Bino_over(exceptional, 1, 0.04)
         if intact > 0:
             tot += self.komb.Bino_over(intact, 1, 0.02)
-            
+        tot = round(tot, 4)    
         message = "You have a " + str(tot*100) + "% chance of getting one or more rare drops"
         return message
 
@@ -135,7 +135,7 @@ class Calculator(object):
         armorReduction = (armor) / (armor+300)
         dr += armorReduction
         EHP = (health) / (1-dr)
-
+        EHP = round(EHP, 4)
         message = "Based on an armor value of " + str(armor) + " and a health value of " + str(health) + " you have an damage reduction of " + str(dr) + " and a total EHP of " + str(EHP) + ". Keep in mind that enemies might have damagetypes that increase or decrease the damage agains you. But in terms of raw EHP this should be correct"
         return message
 
