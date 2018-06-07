@@ -51,22 +51,18 @@ class Calculator(object):
         cc = cc/100
         multi = multi/100
 
-        #pAgB means probability of A given B
-        pAgB = self.komb.Bino_over(2, 1, cc)
-        #pB means probability of B
-        pB = multi
-        #pAnB means pobability of A given not B
-        pAnB = self.komb.Bino_over(1, 1, cc)
-        #pnB means probability of not B
-        pnB = 1-multi
-        #pA is the total probability of A
-        pA = pAgB * pB + pAnB * pnB
+        multi = multi + 1
+        bullets = str(float(pellets*multi))
+        front, back = bullets.split(".")
 
-        #Effectivey does the same calculation for every pellet
-        chance = pA * pellets
+        modPellets = int(pellets*int(front))
+        pAnB = self.komb.Bino_over(modPellets, 1, cc)
+        pAgB = self.komb.Bino_over(modPellets+1,1,cc)
 
-        message = "You have a " + str(chance*100) + "% chance of getting one or more crits per trigger pull"
-        return message
+        pA = pAgB * float(back) + pAnB * (1-float(back))
+        print(pA)
+        #message = "You have a " + str(chance*100) + "% chance of getting one or more crits per trigger pull"
+        #return message
 
     def statusProcs(self, sc, sm, pellets, multi):
         #A = proc, B = extra shot
@@ -121,4 +117,4 @@ class Calculator(object):
 if __name__ == "__main__":
     calc = Calculator()
     string = "calc."+input(":")
-    print(eval(string))
+    exec(string)
