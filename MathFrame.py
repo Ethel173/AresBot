@@ -1,4 +1,5 @@
 #I apologize for ugly math, but IDE's don't let you write propper math expressions
+# pylint: disable=W0612
 class KombinatoryCalculator(object):
     """Calculator to calculate kombinations and probability."""
     def __init__(self, result):
@@ -52,7 +53,9 @@ class Calculator(object):
         cc = crit/100
         multi = multishot/100
         if cc > 1:
-            cc = 1
+            extra, cc = str(cc).split(".")
+            cc = "0."+cc
+            cc=float(cc)
 
         #Splits the number into berfore and after the . so 17.6 would give 17 and 6, this is to factor in the chance of getting an extra shot
         multi = multi + 1
