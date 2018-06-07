@@ -45,11 +45,14 @@ class Calculator(object):
         self.komb = KombinatoryCalculator(0)
 
     def critChance(self, crit=0, pellets=1, multishot=0):
+        oCc = crit
         #A = crit, B = extra shot
 
         #Convert given stats to decimal chance
         cc = crit/100
         multi = multishot/100
+        if cc > 1:
+            cc = 1
 
         #Splits the number into berfore and after the . so 17.6 would give 17 and 6, this is to factor in the chance of getting an extra shot
         multi = multi + 1
@@ -68,7 +71,10 @@ class Calculator(object):
         #Using the formla for total chance we get the actual chance of getting one or more crits
         pA = pAgB * pB + pAnB * pnB
         
-        message = "You have a " + str(pA*100) + "% chance of getting one or more crits per trigger pull"
+        if oCc < 100:
+            message = "You have a " + str(pA*100) + "% chance of getting one or more crits per trigger pull"
+        else:
+            message = "Seeing that your starting crit chance was over 100% you are guaranteed to get crits on everything. However You have a " + str(pA*100) + "% chance of getting one or more crits of higher type per trigger pull"
         return message
 
     def statusProcs(self, chance=0, multiplier=0, pellets=1, multishot=0):
