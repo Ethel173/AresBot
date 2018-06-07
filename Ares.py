@@ -84,6 +84,12 @@ class Bot():
                 #Get the return of the method
                 message = eval(command)
                 self.comment(comment, message)
+            elif re.search("!AresManual", comment.body, re.I|re.M):
+                message = """User manual for AresBot:
+                -critChance([critchance shown in arsenal], [pellets the gun fires unmodded], [multi-shot chance]) this returns the chance of you getting one or more crits per triggerpull. If you get an answer over 100% this des NOT mean you'll get orangecrits. Multishot wont up the critchance,  you just have more tries. Keeping this in mind what a answer over 100% means is that you are likely to get more then one crit (two, three, four etc. bullets land a normal crit)
+                
+                -statusProcs(["""
+                self.comment(comment, message)
         except:
             #If something went wrong (most probably in the calcuations) write an apology
             message = "I'm sorry, I don't understand what you mean.\nYou might have mistyped or filled in the values in a problematic way\nMy commands are:\n\n -critchance([critchance of your weapon], [number of bullets per shot], [multishot chance]\n\n -statusprocs([unmodded statuschance], [how many % +stauts chance the weapon has (i.e. 240 for 4 dualstat mods)], [number of bullets per shot], [multishot chance])\n\n -rareitem([number of radiant relics the squad intends to use], [number of flawless relics], [exceptinal relics], [intact relics]\n\n If you are certain you inputed everything correctly contact /u/Aereskiko or visit my GitHub Page"
@@ -109,7 +115,7 @@ class Bot():
                 time.sleep(60)
             except Exception as e:
                 print(str(e))
-                with open("error_messages.txt", "r") as f:
+                with open("error_messages.txt", "a") as f:
                     f.append(str(e))
 
 
