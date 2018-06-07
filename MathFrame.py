@@ -78,7 +78,7 @@ class Calculator(object):
         if oCc < 100:
             message = "You have a " + str(pA*100) + "% chance of getting one or more crits per trigger pull"
         else:
-            message = "Seeing that your starting crit chance was over 100% you are guaranteed to get crits on everything. However You have a " + str(pA*100) + "% chance of getting one or more crits of higher type per trigger pull"
+            message = "Seeing that your starting crit chance was over 100% you are guaranteed to get crits on everything.\nHowever You have a " + str(pA*100) + "% chance of getting one or more crits of higher type per trigger pull"
         return message
 
     def statusProcs(self, chance=0, multiplier=0, pellets=1, multishot=0):
@@ -111,8 +111,7 @@ class Calculator(object):
         pnB = (1 - float("0."+str(back)))
         #pA is the total probability of A
         pA = pAgB * pB + pAnB * pnB
-        pA = round(pA, 4)
-        message = ("Due to multishot you'll either fire " + front + " pellets, or " + str(int(front)+1) + " pellets with a " + str(int(float("0."+str(back))*100)) + "% chance of getting the extra shot.\nThat means that you have an estimated " + str(int(pAnB)) + " or " + str(int(pAgB)) + " guaranteed status procs per trigger pull respectively.\nThis gives an overall " + str(pA) + " status procs per trigger pull")
+        message = ("Due to multishot you'll either fire " + front + " pellets, or " + str(int(front)+1) + " pellets with a " + str(int(float("0."+str(back))*100)) + "% chance of getting the extra shot.\nThat means that you have an estimated " + str(int(pAnB)) + " or " + str(int(pAgB)) + " guaranteed status procs per trigger pull respectively.\nThis gives an overall " + str(round(pA,2)) + " status procs per trigger pull")
         return message
 
     def rareChance(self, radiant=0, flawless=0, exceptional=0, intact=0):
@@ -126,8 +125,7 @@ class Calculator(object):
             tot += self.komb.Bino_over(exceptional, 1, 0.04)
         if intact > 0:
             tot += self.komb.Bino_over(intact, 1, 0.02)
-        tot = round(tot, 4)    
-        message = "You have a " + str(tot*100) + "% chance of getting one or more rare drops"
+        message = "You have a " + str(round(tot,4)*100) + "% chance of getting one or more rare drops"
         return message
 
     def armor(self, health=0, armor=0, dr=0):
@@ -135,7 +133,6 @@ class Calculator(object):
         armorReduction = (armor) / (armor+300)
         dr += armorReduction
         EHP = (health) / (1-dr)
-        EHP = round(EHP, 4)
         message = "Based on an armor value of " + str(armor) + " and a health value of " + str(health) + " you have an damage reduction of " + str(round(dr, 4)*100) + "% and a total EHP of " + str(EHP) + ". Keep in mind that enemies might have damagetypes that increase or decrease the damage agains you. But in terms of raw EHP this should be correct"
         return message
 

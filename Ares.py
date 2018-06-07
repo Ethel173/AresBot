@@ -126,7 +126,6 @@ class Bot():
 
             except praw.exceptions.APIException:
                 #If exception due to quota wait for a minute and try again
-                print("Waiting")
                 time.sleep(60)
             except Exception as e:
                 print(str(e))
