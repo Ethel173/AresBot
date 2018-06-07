@@ -1,8 +1,3 @@
-ares_quotes= \
-[
-"I'm sorry, I don't know what you want",
-]
-
 # pylint: disable=W1401
 # pylint: disable=W0612
 import praw
