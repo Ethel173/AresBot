@@ -119,7 +119,15 @@ class Calculator(object):
             
         message = "You have a " + str(tot*100) + "% chance of getting one or more rare drops"
         return message
-    
+
+    def armor(self, health, armor, dr=0):
+        dr = dr/100
+        armorReduction = (armor) / (armor+300)
+        dr += armorReduction
+        EHP = (health) / (1-dr)
+
+        message = "Based on an armor value of " + str(armor) + " and a health value of " + str(health) + " you have an damage reduction of " + str(dr) + " and a total EHP of " + str(EHP) + ". Keep in mind that enemies might have damagetypes that increase or decrease the damage agains you. But in terms of raw EHP this should be correct"
+        return message
 
 if __name__ == "__main__":
     calc = Calculator()

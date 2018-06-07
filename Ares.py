@@ -85,6 +85,18 @@ class Bot():
                 message = eval(command)
                 self.comment(comment, message)
 
+            elif re.search("EHP\((.*)\)", comment.body, re.I|re.M):
+                #Ob is the entire snippet
+                ob = re.search("EHP\((.*)\)", comment.body, re.I|re.M)
+                #Ob[1] is the string of arguments that are going to be passed to the function
+                #Calculator from the import being initialized
+                Calc = Calculator()
+                #first set up the method call as a string to format in the string of arguments
+                command = "Calc.armor({})".format(ob[1])
+                #Get the return of the method
+                message = eval(command)
+                self.comment(comment, message)
+
             
             elif re.search("Pass the butter!", comment.body, re.I|re.M):
                 message = """I'm a bit preocupied with answering the questions of your fellow tenno, but if you make me a body i'm sure I can find the time to do so
@@ -111,8 +123,11 @@ class Bot():
                     self.comments_responded.append(comment.id)
                     with open(self.fil, "a") as f:
                         f.write(comment.id + "\n")
-
-                break
+                    time.sleep(10)
+                    break
+                else:
+                    time.sleep(10)
+                    break
 
             except praw.exceptions.APIException:
                 #If exception due to quota wait for a minute and try again
@@ -125,7 +140,7 @@ class Bot():
 
     def should_respond(self, comment):
         reply_authors = list(map(lambda c: c.author, comment.replies.list()))
-        return comment.author != "AresBot" and "AresBot" not in reply_authors
+        return (comment.author != "AresBot" and "AresBot" not in reply_authors)
 
 
 
