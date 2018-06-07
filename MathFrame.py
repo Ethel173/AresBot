@@ -136,7 +136,7 @@ class Calculator(object):
         dr += armorReduction
         EHP = (health) / (1-dr)
         EHP = round(EHP, 4)
-        message = "Based on an armor value of " + str(armor) + " and a health value of " + str(health) + " you have an damage reduction of " + str(dr) + " and a total EHP of " + str(EHP) + ". Keep in mind that enemies might have damagetypes that increase or decrease the damage agains you. But in terms of raw EHP this should be correct"
+        message = "Based on an armor value of " + str(armor) + " and a health value of " + str(health) + " you have an damage reduction of " + str(round(dr, 4)*100) + "% and a total EHP of " + str(EHP) + ". Keep in mind that enemies might have damagetypes that increase or decrease the damage agains you. But in terms of raw EHP this should be correct"
         return message
 
 if __name__ == "__main__":
