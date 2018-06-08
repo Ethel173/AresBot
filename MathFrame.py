@@ -45,17 +45,20 @@ class Calculator(object):
     def __init__(self):
         self.komb = KombinatoryCalculator(0)
 
-    def critChance(self, crit=0, pellets=1, multishot=0):
+    def critChance(self, crit=0, pellets=1, multishot=0, extra=0):
         oCc = crit
         #A = crit, B = extra shot
 
         #Convert given stats to decimal chance
         cc = crit/100
         multi = multishot/100
+        extra = extra/100
+        extra += 1
         if cc > 1:
-            extra, cc = str(cc).split(".")
+            overHundred, cc = str(cc).split(".")
             cc = "0."+cc
             cc=float(cc)
+        cc = cc * extra
 
         #Splits the number into berfore and after the . so 17.6 would give 17 and 6, this is to factor in the chance of getting an extra shot
         multi = multi + 1
@@ -73,11 +76,16 @@ class Calculator(object):
         pnB = (1 - float("0."+str(back)))
         #Using the formla for total chance we get the actual chance of getting one or more crits
         pA = pAgB * pB + pAnB * pnB
+
+        #Finding average amount of crits
+        avC = modPellets*crit
+
+
         #Ability to handle critlevels over 100% curtesy of Ethel173
         if oCc < 100:
-            message = "You have a " + str(round(pA,4)*100) + "% chance of getting one or more crits per trigger pull"
+            message = "You have a " + str(round(pA,4)*100) + "% chance of getting one or more crits per trigger pull.\nOn average you should get " + str(avC) + " crits per trigger pull"
         else:
-            message = "Seeing that your starting crit chance was over 100% you are guaranteed to get crits on everything.\nHowever you have a " + str(round(pA,4)*100) + "% chance of getting one or more crits of higher type per trigger pull"
+            message = "Seeing that your starting crit chance was over 100% you are guaranteed to get crits on everything.\nHowever you have a " + str(round(pA,4)*100) + "% chance of getting one or more crits of higher type per trigger pull.\nOn average you should see " + str(avC) + " higher crits per trigger pull"
         return message
 
     def statusProcs(self, chance=0, multiplier=0, pellets=1, multishot=0):
