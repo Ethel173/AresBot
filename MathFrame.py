@@ -78,7 +78,7 @@ class Calculator(object):
         pA = pAgB * pB + pAnB * pnB
 
         #Finding average amount of crits
-        avC = modPellets*crit
+        avC = modPellets*cc
 
 
         #Ability to handle critlevels over 100% curtesy of Ethel173

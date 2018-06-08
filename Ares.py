@@ -94,8 +94,7 @@ class Bot():
 
             
             elif re.search("Pass the butter!", comment.body, re.I|re.M):
-                message = """I'm a bit preocupied with answering the questions of your fellow tenno, but if you make me a body i'm sure I can find the time to do so
-                    """
+                message = """I'm a bit preocupied with answering the questions of your fellow tenno, but if you make me a body i'm sure I can find the time to do so"""
                 self.comment(comment, message)
 
             elif re.search("!AresManual", comment.body, re.I|re.M):
