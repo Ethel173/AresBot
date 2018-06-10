@@ -9,7 +9,7 @@ import sys
 
 #Custom math module
 from MathFrame import Calculator
-
+                                                                                                                                              
 class Bot():
     def __init__(self, sub):
         #Selecting the subreddit and starting... stuff...
