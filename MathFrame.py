@@ -1,5 +1,13 @@
 #I apologize for ugly math, but IDE's don't let you write propper math expressions
 # pylint: disable=W0612
+
+
+def rnd(n, m):
+    n = int(n * 10**m)
+    n = float(n / 10**m)
+    return n 
+
+
 class KombinatoryCalculator(object):
     """Calculator to calculate kombinations and probability."""
     def __init__(self, result):
@@ -45,7 +53,7 @@ class Calculator(object):
     def __init__(self):
         self.komb = KombinatoryCalculator(0)
 
-    def critChance(self, crit=0, pellets=1, multishot=0, extra=0):
+    def critChance(self, crit=0, pellets=1, multishot=0, extra=0, rounding=2):
         oCc = crit
         #A = crit, B = extra shot
 
@@ -54,6 +62,7 @@ class Calculator(object):
         multi = multishot/100
         extra = extra/100
         extra += 1
+        r = rounding + 2
         if cc > 1:
             overHundred, cc = str(cc).split(".")
             cc = "0."+cc
@@ -83,19 +92,19 @@ class Calculator(object):
 
         #Ability to handle critlevels over 100% curtesy of Ethel173
         if oCc < 100:
-            message = "You have a " + str(round(pA,4)*100) + "% chance of getting one or more crits per trigger pull.\nOn average you should get " + str(avC) + " crits per trigger pull"
+            message = "You have a {}".format((rnd(pA,r)*100)) + "% chance of getting one or more crits per trigger pull.\nOn average you should get " + str(avC) + " crits per trigger pull"
         else:
-            message = "Seeing that your starting crit chance was over 100% you are guaranteed to get crits on everything.\nHowever you have a " + str(round(pA,4)*100) + "% chance of getting one or more crits of higher type per trigger pull.\nOn average you should see " + str(avC) + " higher crits per trigger pull"
+            message = "Seeing that your starting crit chance was over 100% you are guaranteed to get crits on everything.\nHowever you have a {}".format((rnd(pA,r)*100)) + "% chance of getting one or more crits of higher type per trigger pull.\nOn average you should see " + str(avC) + " higher crits per trigger pull"
         return message
 
-    def statusProcs(self, chance=0, multiplier=0, pellets=1, multishot=0):
+    def statusProcs(self, chance=0, multiplier=0, pellets=1, multishot=0, rounding = 2):
         #A = proc, B = extra shot
 
         #Convert given stats to decimal chance
         sc = chance/100
         sm = multiplier/100
         multi = multishot/100
-
+        r = rounding
         #Splits the number into berfore and after the . so 17.6 would give 17 and 6, this is to factor in the chance of getting an extra shot
         multi = multi + 1
         bullets = str(float(pellets*multi))
@@ -118,11 +127,12 @@ class Calculator(object):
         pnB = (1 - float("0."+str(back)))
         #pA is the total probability of A
         pA = pAgB * pB + pAnB * pnB
-        message = ("Due to multishot you'll either fire " + front + " pellets, or " + str(int(front)+1) + " pellets with a " + str(int(float("0."+str(back))*100)) + "% chance of getting the extra shot.\nThat means that you have an estimated " + str(int(pAnB)) + " or " + str(int(pAgB)) + " guaranteed status procs per trigger pull respectively.\nThis gives an overall " + str(round(pA,2)) + " status procs per trigger pull")
+        message = ("Due to multishot you'll either fire " + front + " pellets, or " + str(int(front)+1) + " pellets with a {}".format((int(float("0."+str(back))*100))) + "% chance of getting the extra shot.\nThat means that you have an estimated " + str(int(pAnB)) + " or " + str(int(pAgB)) + " guaranteed status procs per trigger pull respectively.\nThis gives an overall " + str(rnd(pA,r)) + " status procs per trigger pull")
         return message
 
-    def rareChance(self, radiant=0, flawless=0, exceptional=0, intact=0):
+    def rareChance(self, radiant=0, flawless=0, exceptional=0, intact=0, rounding=2):
         tot = 0.0
+        r = rounding + 2
         #For every relic run the chance of getting one or more rares from the selection of relics
         if radiant > 0:
             tot += self.komb.Bino_over(radiant, 1, 0.1)
@@ -132,15 +142,16 @@ class Calculator(object):
             tot += self.komb.Bino_over(exceptional, 1, 0.04)
         if intact > 0:
             tot += self.komb.Bino_over(intact, 1, 0.02)
-        message = "You have a " + str(round(tot,4)*100) + "% chance of getting one or more rare drops"
+        message = "You have a " + str(rnd(tot,r)*100) + "% chance of getting one or more rare drops"
         return message
 
-    def armor(self, health=0, armor=0, dr=0):
+    def armor(self, health=0, armor=0, dr=0, rounding=0):
+        
         dr = dr/100
         armorReduction = (armor) / (armor+300)
         dr += armorReduction
         EHP = (health) / (1-dr)
-        message = "Based on an armor value of " + str(armor) + " and a health value of " + str(health) + " you have an damage reduction of " + str(round(dr, 4)*100) + "% and a total EHP of " + str(EHP) + ". Keep in mind that enemies might have damagetypes that increase or decrease the damage agains you. But in terms of raw EHP this should be correct"
+        message = "Based on an armor value of " + str(armor) + " and a health value of " + str(health) + " you have an damage reduction of {}".format((rnd(dr, 4)*100)) + "% and a total EHP of " + str(int(EHP)) + ". Keep in mind that enemies might have damagetypes that increase or decrease the damage agains you. But in terms of raw EHP this should be correct"
         return message
 
 if __name__ == "__main__":
