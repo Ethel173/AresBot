@@ -153,13 +153,21 @@ class Calculator(object):
         message = temp.format((tot*100)) + "% chance of getting one or more rare drops"
         return message
 
-    def armor(self, health=0, armor=0, dr=0, rounding=0):
+    def armor(self, health=0, armor=0, shields=0, dr=0, rounding=0, energy=0, qt=0):
         
         dr = dr/100
+        QT = qt/100
+
         armorReduction = (armor) / (armor+300)
-        dr += armorReduction
-        EHP = (health) / (1-dr)
-        message = "Based on an armor value of " + str(armor) + " and a health value of " + str(health) + " you have an damage reduction of {}".format((rnd(dr, 4)*100)) + "% and a total EHP of " + str(int(EHP)) + ". Keep in mind that enemies might have damagetypes that increase or decrease the damage agains you. But in terms of raw EHP this should be correct"
+        Adr = armorReduction
+
+        QHP = energy * QT
+        health = health + QHP
+
+        EHP = shields + ((health) / (1-Adr))
+        EHP = EHP / (1-dr)
+
+        message = "Based on an armor value of " + str(armor) + " and a health value of " + str(health) + " pluss " + str(QHP) +" from quick thinking. You have an damage reduction due to armor of {}".format((rnd(Adr, 4)*100)) + "% and a total EHP of " + str(int(EHP)) + ". Keep in mind that enemies might have damagetypes that increase or decrease the damage agains you. But in terms of raw EHP this should be correct"
         return message
 
 if __name__ == "__main__":

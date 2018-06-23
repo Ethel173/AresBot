@@ -98,7 +98,7 @@ class Bot():
                 self.comment(comment, message)
 
             elif re.search("!AresManual", comment.body, re.I|re.M):
-                message = "User manual for AresBot:-critChance(crit, pellets, multi, extra(argon scope, hydraulic crosshairs etc.))\nThis returns the chance of you getting one or more crits per triggerpull and how any crits you should see per trigger pull.\n\n-statusProcs(chance(base), multiplier, pellets, multishot)\nGives the estimated amount of procs you get per triggerpull\n\n-rareItem(radiant, excepltional, flawless, intact)\nReturns the chance you have of getting a rare drop\n\n-EHP(health, armor)\nReturns your EHP (does not factor damage types in)\n\n-!AresManual\nList of commands\n\n-Pass the butter!\nJoke command requested by user N2203AM\n\ncommands are case-insensitive so critChance is the same as cRiTcHaNcE\n\nWhen passing values name tha value it refers to. Example:\nstatusProcs(chance=20, pellets=8)\nVariables you don't specify default to 0 (pellets default to 1)"
+                message = "User manual for AresBot:-critChance(crit, pellets, multi, extra(argon scope, hydraulic crosshairs etc.))\nThis returns the chance of you getting one or more crits per triggerpull and how any crits you should see per trigger pull.\n\n-statusProcs(chance(base), multiplier, pellets, multishot)\nGives the estimated amount of procs you get per triggerpull\n\n-rareItem(radiant, excepltional, flawless, intact)\nReturns the chance you have of getting a rare drop\n\n-EHP(health, armor, dr(damage reduction from abilities), energy, qt(efficiency))\nReturns your EHP (does not factor damage types in)\n\n-!AresManual\nList of commands\n\n-Pass the butter!\nJoke command requested by user N2203AM\n\ncommands are case-insensitive so critChance is the same as cRiTcHaNcE\n\nWhen passing values name tha value it refers to. Example:\nstatusProcs(chance=20, pellets=8)\nAll functions can also have a rounding specified (number of decimals).\nVariables you don't specify default to 0 (pellets default to 1 and rounding to 2)"
                 self.comment(comment, message)
         except:
             #If something went wrong (most probably in the calcuations) write an apology
@@ -136,6 +136,32 @@ class Bot():
         return (comment.author != "AresBot" and "AresBot" not in reply_authors)
 
 
+while True:
+    try:
+        Ares = Bot("Warframe")
+        Ares.begin()
 
-Ares = Bot("Warframe")
-Ares.begin()
+    except KeyboardInterrupt:
+        sys.exit()
+
+    except Exception as e:
+        if not os.path.isfile("Exception_Log.txt"):
+            with open("Exception_Log.txt", "w") as f:
+                f.write("-")
+                f.write(time.asctime(time.localtime(time.time())))
+                f.write("-\n")
+                f.write("\n")
+                f.write(str(e))
+                f.write("\n---------")
+                f.write("\n\n")
+        else:
+            with open("Exception_Log.txt", "a") as f:
+                f.write("-")
+                f.write(time.asctime(time.localtime(time.time())))
+                f.write("-\n")
+                f.write("\n")
+                f.write(str(e))
+                f.write("\n---------")
+                f.write("\n\n")
+
+        time.sleep(300)
