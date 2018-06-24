@@ -93,12 +93,12 @@ class Bot():
                 self.comment(comment, message)
 
             
-            elif re.search("Pass the butter!", comment.body, re.I|re.M):
+            elif re.search("Pass the butter", comment.body, re.I|re.M):
                 message = """I'm a bit preocupied with answering the questions of your fellow tenno, but if you make me a body i'm sure I can find the time to do so"""
                 self.comment(comment, message)
 
             elif re.search("!AresManual", comment.body, re.I|re.M):
-                message = "User manual for AresBot:-critChance(crit, pellets, multi, extra(argon scope, hydraulic crosshairs etc.))\nThis returns the chance of you getting one or more crits per triggerpull and how any crits you should see per trigger pull.\n\n-statusProcs(chance(base), multiplier, pellets, multishot)\nGives the estimated amount of procs you get per triggerpull\n\n-rareItem(radiant, excepltional, flawless, intact)\nReturns the chance you have of getting a rare drop\n\n-EHP(health, armor, dr(damage reduction from abilities), energy, qt(efficiency))\nReturns your EHP (does not factor damage types in)\n\n-!AresManual\nList of commands\n\n-Pass the butter!\nJoke command requested by user N2203AM\n\ncommands are case-insensitive so critChance is the same as cRiTcHaNcE\n\nWhen passing values name tha value it refers to. Example:\nstatusProcs(chance=20, pellets=8)\nAll functions can also have a rounding specified (number of decimals).\nVariables you don't specify default to 0 (pellets default to 1 and rounding to 2)"
+                message = "User manual for AresBot:\n\n-critChance(crit, pellets, multi, extra(argon scope, hydraulic crosshairs etc.))\n\nThis returns the chance of you getting one or more crits per triggerpull and how any crits you should see per trigger pull.\n\n\n\n-statusProcs(chance(base), multiplier, pellets, multishot)\n\nGives the estimated amount of procs you get per triggerpull\n\n\n\n-rareItem(radiant, excepltional, flawless, intact)\n\nReturns the chance you have of getting a rare drop\n\n\n\n-EHP(health, armor, dr(damage reduction from abilities), energy, qt(efficiency))\n\nReturns your EHP (does not factor damage types in)\n\n\n\n-!AresManual\n\nList of commands\n\n\n\n-Pass the butter\n\nJoke command requested by user N2203AM\n\n\n\ncommands are case-insensitive so critChance is the same as cRiTcHaNcE\n\nWhen passing values name tha value it refers to. Example:\n\nstatusProcs(chance=20, pellets=8)\n\nAll functions can also have a rounding specified (number of decimals).\n\nVariables you don't specify default to 0 (pellets default to 1 and rounding to 2)"
                 self.comment(comment, message)
         except:
             #If something went wrong (most probably in the calcuations) write an apology

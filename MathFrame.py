@@ -63,11 +63,11 @@ class Calculator(object):
         extra = extra/100
         extra += 1
         r = rounding
+        cc = cc * extra
         if cc > 1:
             overHundred, cc = str(cc).split(".")
             cc = "0."+cc
             cc=float(cc)
-        cc = cc * extra
 
         #Splits the number into berfore and after the . so 17.6 would give 17 and 6, this is to factor in the chance of getting an extra shot
         multi = multi + 1
@@ -92,14 +92,9 @@ class Calculator(object):
 
         #Ability to handle critlevels over 100% curtesy of Ethel173
         if oCc < 100:
-            temp = "You have a " + "{" +"0:.{}f".format(r)+"}"
-            temp2 = "On average you should get " + "{" +"0:.{}f".format(r)+"}"
-            message = temp.format(((pA)*100)) + "% chance of getting one or more crits per trigger pull.\n" + temp2.format(avC) + " crits per trigger pull"
+            message = "You have a "+ str(round(pA*100, r)) + "% chance of getting one or more crits per trigger pull.\nOn average you should get " + str(round(avC,r)) + " crits per trigger pull"
         else:
-            
-            temp = "you have a " + "{" +"0:.{}f".format(r)+"}"
-            temp2 = "On average you should get " + "{" +"0:.{}f".format(r)+"}"
-            message = "Seeing that your starting crit chance was over 100% you are guaranteed to get crits on everything.\nHowever " + temp.format(((pA)*100)) + "% chance of getting one or more crits of higher type per trigger pull.\n" + temp2.format(avC) + " higher crits per trigger pull"
+            message = "Seeing that your starting crit chance was over 100% you are guaranteed to get crits on everything.\nHowever you have a " + str(round(pA*100,r)) + "% chance of getting one or more crits of higher type per trigger pull.\nOn average you should get " + str(round(avC,r)) + " higher crits per trigger pull"
         return message
 
     def statusProcs(self, chance=0, multiplier=0, pellets=1, multishot=0, rounding = 2):
@@ -134,7 +129,7 @@ class Calculator(object):
         pA = pAgB * pB + pAnB * pnB
         temp = "This gives an overall " + "{" +"0:.{}f".format(r)+"}"
         temp2 = " pellets with a " + "{" +"0:.{}f".format(r)+"}"
-        message = ("Due to multishot you'll either fire " + front + " pellets, or " + str(int(front)+1) + temp.format((int(float("0."+str(back))*100))) + "% chance of getting the extra shot.\nThat means that you have an estimated " + str(int(pAnB)) + " or " + str(int(pAgB)) + " guaranteed status procs per trigger pull respectively.\n" + temp2.format(pA) + " status procs per trigger pull")
+        message = ("Due to multishot you'll either fire " + front + " pellets, or " + str(int(front)+1) + " pellets with a " + round(float("0."+str(back))*100,r) + "% chance of getting the extra shot.\nThat means that you have an estimated " + str(int(pAnB)) + " or " + str(int(pAgB)) + " guaranteed status procs per trigger pull respectively.\nThis gives an overall " + round(pA,r) + " status procs per trigger pull")
         return message
 
     def rareChance(self, radiant=0, flawless=0, exceptional=0, intact=0, rounding=2):
@@ -149,8 +144,7 @@ class Calculator(object):
             tot += self.komb.Bino_over(exceptional, 1, 0.04)
         if intact > 0:
             tot += self.komb.Bino_over(intact, 1, 0.02)
-        temp = "You have a " + "{" +"0:.{}f".format(r)+"}"
-        message = temp.format((tot*100)) + "% chance of getting one or more rare drops"
+        message =  "You have a " +round((tot*100),r) + "% chance of getting one or more rare drops"
         return message
 
     def armor(self, health=0, armor=0, shields=0, dr=0, rounding=0, energy=0, qt=0):
@@ -167,7 +161,7 @@ class Calculator(object):
         EHP = shields + ((health) / (1-Adr))
         EHP = EHP / (1-dr)
 
-        message = "Based on an armor value of " + str(armor) + " and a health value of " + str(health) + " pluss " + str(QHP) +" from quick thinking. You have an damage reduction due to armor of {}".format((rnd(Adr, 4)*100)) + "% and a total EHP of " + str(int(EHP)) + ". Keep in mind that enemies might have damagetypes that increase or decrease the damage agains you. But in terms of raw EHP this should be correct"
+        message = ("Based on an armor value of " + str(int(armor)) + " and a health value of " + str(int(health)) + " pluss " + str(int(QHP)) +" from quick thinking. You have an damage reduction due to armor of {}".format((round(Adr*100,rounding))) + "% and a total EHP of " + str(int(EHP)) + ". Keep in mind that enemies might have damagetypes that increase or decrease the damage agains you. But in terms of raw EHP this should be correct")
         return message
 
 if __name__ == "__main__":
