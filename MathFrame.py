@@ -132,7 +132,7 @@ class Calculator(object):
         message = ("Due to multishot you'll either fire " + front + " pellets, or " + str(int(front)+1) + " pellets with a " + round(float("0."+str(back))*100,r) + "% chance of getting the extra shot.\nThat means that you have an estimated " + str(int(pAnB)) + " or " + str(int(pAgB)) + " guaranteed status procs per trigger pull respectively.\nThis gives an overall " + round(pA,r) + " status procs per trigger pull")
         return message
 
-    def rareChance(self, radiant=0, flawless=0, exceptional=0, intact=0, rounding=2):
+    def rareItem(self, radiant=0, flawless=0, exceptional=0, intact=0, rounding=2):
         tot = 0.0
         r = rounding
         #For every relic run the chance of getting one or more rares from the selection of relics
@@ -147,7 +147,7 @@ class Calculator(object):
         message =  "You have a " +round((tot*100),r) + "% chance of getting one or more rare drops"
         return message
 
-    def armor(self, health=0, armor=0, shields=0, dr=0, rounding=0, energy=0, qt=0):
+    def ehp(self, health=0, armor=0, shields=0, dr=0, rounding=0, energy=0, qt=0):
         
         dr = dr/100
         QT = qt/100

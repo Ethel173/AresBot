@@ -75,7 +75,7 @@ class Bot():
                 #Calculator from the import being initialized
                 Calc = Calculator()
                 #first set up the method call as a string to format in the string of arguments
-                command = "Calc.rareChance({})".format(ob[1])
+                command = "Calc.rareItem({})".format(ob[1])
                 #Get the return of the method
                 message = eval(command)
                 self.comment(comment, message)
@@ -87,7 +87,7 @@ class Bot():
                 #Calculator from the import being initialized
                 Calc = Calculator()
                 #first set up the method call as a string to format in the string of arguments
-                command = "Calc.armor({})".format(ob[1])
+                command = "Calc.ehp({})".format(ob[1])
                 #Get the return of the method
                 message = eval(command)
                 self.comment(comment, message)
