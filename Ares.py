@@ -103,6 +103,7 @@ class Bot():
         except:
             #If something went wrong (most probably in the calcuations) write an apology
             message = "Use !AresManual to get the list of commands and how to use them\n\nIf you are certain you inputed everything correctly contact /u/Aereskiko or visit my GitHub Page"
+            self.comment(comment, message)
 
     def comment(self, comment, response):
         #In a while loop in case it has to wait for more comment quota
@@ -126,10 +127,6 @@ class Bot():
             except praw.exceptions.APIException:
                 #If exception due to quota wait for a minute and try again
                 time.sleep(60)
-            except Exception as e:
-                print(str(e))
-                with open("error_messages.txt", "a") as f:
-                    f.append(str(e))
 
     def should_respond(self, comment):
         reply_authors = list(map(lambda c: c.author, comment.replies.list()))
@@ -137,6 +134,7 @@ class Bot():
 
 
 while True:
+    #Catch exceptions an Log them in a text file, then retry to initiate the bot
     try:
         Ares = Bot("Warframe")
         Ares.begin()
