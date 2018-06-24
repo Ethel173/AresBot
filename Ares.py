@@ -102,7 +102,7 @@ class Bot():
                 self.comment(comment, message)
         except:
             #If something went wrong (most probably in the calcuations) write an apology
-            message = "Use !AresManual to get the list of commands and how to use them\n\nIf you are certain you inputed everything correctly contact /u/Aereskiko or visit my GitHub Page"
+            message = "It seems you have given an unsupported argument. Use !AresManual to get the list of commands and how to use them\n\nIf you are certain you inputed everything correctly contact /u/Aereskiko or visit my GitHub Page"
             self.comment(comment, message)
 
     def comment(self, comment, response):
