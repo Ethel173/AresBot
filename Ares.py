@@ -6,6 +6,8 @@ import re
 import os
 import time
 import sys
+import datetime
+import calendar
 
 #Custom math module
 from MathFrame import Calculator
@@ -132,6 +134,15 @@ class Bot():
         reply_authors = list(map(lambda c: c.author, comment.replies.list()))
         return (comment.author != "AresBot" and "AresBot" not in reply_authors)
 
+def log(e, f):
+    f.write("-")
+    f.write(time.asctime(time.localtime(time.time())))
+    f.write("-\n")
+    f.write("\n")
+    f.write(str(e))
+    f.write("\n---------")
+    f.write("\n\n")
+
 
 while True:
     #Catch exceptions an Log them in a text file, then retry to initiate the bot
@@ -143,23 +154,19 @@ while True:
         sys.exit()
 
     except Exception as e:
-        if not os.path.isfile("Exception_Log.txt"):
-            with open("Exception_Log.txt", "w") as f:
-                f.write("-")
-                f.write(time.asctime(time.localtime(time.time())))
-                f.write("-\n")
-                f.write("\n")
-                f.write(str(e))
-                f.write("\n---------")
-                f.write("\n\n")
+        d = datetime.date.today()
+        year = d.year
+        month = calendar.month_name[d.month]
+
+        textFile = str(month) + "_" + str(year)
+        pathToFile = "Exceptions/"+textFile+".txt"
+
+        if not os.path.isfile(pathToFile):
+            with open(pathToFile, "w") as f:
+                log(e, f)
         else:
-            with open("Exception_Log.txt", "a") as f:
-                f.write("-")
-                f.write(time.asctime(time.localtime(time.time())))
-                f.write("-\n")
-                f.write("\n")
-                f.write(str(e))
-                f.write("\n---------")
-                f.write("\n\n")
+            with open(pathToFile, "a") as f:
+                log(e, f)
 
         time.sleep(300)
+
