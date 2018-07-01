@@ -40,68 +40,79 @@ class Bot():
             #Checks if it has been responded to, method wil change soon
             if comment.id not in self.comments_responded:
                 #Optional call-word, currently no aditional call-word is necessary 
-                if re.search("", comment.body, re.IGNORECASE):
+                if re.match("!!", comment.body, re.IGNORECASE):
                     self.descide(comment)
 
     def descide(self, comment):
         try:
-            #Searhing every comment for the call-functions
-            if re.search("critChance\((.*)\)", comment.body, re.I|re.M):
-                #Ob is the entire snippet
-                ob = re.search("critChance\((.*)\)", comment.body, re.I|re.M)
-                #Ob[1] is the string of arguments that are going to be passed to the function
-                #Calculator from the import being initialized
-                Calc = Calculator()
-                #first set up the method call as a string to format in the string of arguments
-                command = "Calc.critChance({})".format(ob[1])
-                #Get the return of the method
-                message = eval(command)
-                self.comment(comment, message)
+            message=""
+            commentText = comment.body
 
-            elif re.search("statusProcs\((.*)\)", comment.body, re.I|re.M):
-                #Ob is the entire snippet
-                ob = re.search("statusProcs\((.*)\)", comment.body, re.I|re.M)
-                #Ob[1] is the string of arguments that are going to be passed to the function
-                #Calculator from the import being initialized
-                Calc = Calculator()
-                #first set up the method call as a string to format in the string of arguments
-                command = "Calc.statusProcs({})".format(ob[1])
-                #Get the return of the method
-                message = eval(command)
-                self.comment(comment, message)
+            #Formatting the comment to use correct casing
+            insensitive_crit = re.compile(re.escape('critChance'), re.IGNORECASE)
+            commentText = insensitive_crit.sub('critChance', commentText)
 
-            elif re.search("rareItem\((.*)\)", comment.body, re.I|re.M):
-                #Ob is the entire snippet
-                ob = re.search("rareItem\((.*)\)", comment.body, re.I|re.M)
-                #Ob[1] is the string of arguments that are going to be passed to the function
-                #Calculator from the import being initialized
-                Calc = Calculator()
-                #first set up the method call as a string to format in the string of arguments
-                command = "Calc.rareItem({})".format(ob[1])
-                #Get the return of the method
-                message = eval(command)
-                self.comment(comment, message)
-
-            elif re.search("EHP\((.*)\)", comment.body, re.I|re.M):
-                #Ob is the entire snippet
-                ob = re.search("EHP\((.*)\)", comment.body, re.I|re.M)
-                #Ob[1] is the string of arguments that are going to be passed to the function
-                #Calculator from the import being initialized
-                Calc = Calculator()
-                #first set up the method call as a string to format in the string of arguments
-                command = "Calc.ehp({})".format(ob[1])
-                #Get the return of the method
-                message = eval(command)
-                self.comment(comment, message)
-
+            insensitive_crit = re.compile(re.escape('statusProcs'), re.IGNORECASE)
+            commentText = insensitive_crit.sub('statusProcs', commentText)
             
-            elif re.search("Pass the butter", comment.body, re.I|re.M):
-                message = """I'm a bit preocupied with answering the questions of your fellow tenno, but if you make me a body i'm sure I can find the time to do so"""
-                self.comment(comment, message)
+            insensitive_crit = re.compile(re.escape('rareItem'), re.IGNORECASE)
+            commentText = insensitive_crit.sub('rareItem', commentText)
+            
+            insensitive_crit = re.compile(re.escape('EHP'), re.IGNORECASE)
+            commentText = insensitive_crit.sub('EHP', commentText)
+            
+            insensitive_crit = re.compile(re.escape('AresManual'), re.IGNORECASE)
+            commentText = insensitive_crit.sub('AresManual', commentText)
 
-            elif re.search("!AresManual", comment.body, re.I|re.M):
-                message = "User manual for AresBot:\n\n-critChance(crit(base), pellets, multishot, extra(argon scope, point strike etc.))\n\nThis returns the chance of you getting one or more crits per triggerpull and how any crits you should see per trigger pull.\n\n\n\n-statusProcs(chance(base), multiplier, pellets, multishot)\n\nGives the estimated amount of procs you get per triggerpull\n\n\n\n-rareItem(radiant, excepltional, flawless, intact)\n\nReturns the chance you have of getting a rare drop\n\n\n\n-EHP(health, armor, dr(damage reduction from abilities), energy, qt(efficiency))\n\nReturns your EHP (does not factor damage types in)\n\n\n\n-!AresManual\n\nList of commands\n\n\n\n-Pass the butter\n\nJoke command requested by user N2203AM\n\n\n\ncommands are case-insensitive so critChance is the same as cRiTcHaNcE\n\nWhen passing values name tha value it refers to. Example:\n\nstatusProcs(chance=20, pellets=8)\n\nAll functions can also have a rounding specified (number of decimals).\n\nVariables you don't specify default to 0 (pellets default to 1 and rounding to 2)"
-                self.comment(comment, message)
+            while True:
+                #Searhing every comment for the call-functions
+                if re.search("critChance\((.*)\)", commentText, re.I|re.M):
+                    #Ob is the entire snippet
+                    ob = re.search("critChance\((.*)\)", commentText, re.I|re.M)
+                    #Ob[1] is the string of arguments that are going to be passed to the function
+                    #Calculator from the import being initialized
+                    Calc = Calculator()
+                    #first set up the method call as a string to format in the string of arguments
+                    func = "critChance({})".format(ob[1])
+                    command = "Calc."+func
+                    #Get the return of the method
+                    message = message + eval(command) + "\n\n"
+                    commentText = commentText.replace(func, "")
+
+
+                elif re.search("rareItem\((.*)\)", commentText, re.I|re.M):
+                    #Ob is the entire snippet
+                    ob = re.search("rareItem\((.*)\)", commentText, re.I|re.M)
+                    #Ob[1] is the string of arguments that are going to be passed to the function
+                    #Calculator from the import being initialized
+                    Calc = Calculator()
+                    #first set up the method call as a string to format in the string of arguments
+                    func = "rareItem({})".format(ob[1])
+                    command = "Calc."+func
+                    #Get the return of the method
+                    message = message + eval(command) + "\n\n"
+                    commentText = commentText.replace(func, "")
+
+                elif re.search("EHP\((.*)\)", commentText, re.I|re.M):
+                    #Ob is the entire snippet
+                    ob = re.search("EHP\((.*)\)", commentText, re.I|re.M)
+                    #Ob[1] is the string of arguments that are going to be passed to the function
+                    #Calculator from the import being initialized
+                    Calc = Calculator()
+                    #first set up the method call as a string to format in the string of arguments
+                    func = "ehp({})".format(ob[1])
+                    command = "Calc."+func
+                    #Get the return of the method
+                    message = message + eval(command) + "\n\n"
+                    commentText = commentText.replace(func, "")
+
+                elif re.search("AresManual", commentText, re.I|re.M):
+                    message = message + "User manual for AresBot:\n\n-critChance(crit(base), pellets, multishot, extra(argon scope, point strike etc.))\n\nThis returns the chance of you getting one or more crits per triggerpull and how any crits you should see per trigger pull.\n\n\n\n-statusProcs(chance(base), multiplier, pellets, multishot)\n\nGives the estimated amount of procs you get per triggerpull\n\n\n\n-rareItem(radiant, excepltional, flawless, intact)\n\nReturns the chance you have of getting a rare drop\n\n\n\n-EHP(health, armor, dr(damage reduction from abilities), energy, qt(efficiency))\n\nReturns your EHP (does not factor damage types in)\n\n\n\n-AresManual\n\nList of commands\n\n\n\nAll comments must now start with !!. Commands are case-insensitive so critChance is the same as cRiTcHaNcE\n\nWhen passing values name tha value it refers to. Example:\n\nstatusProcs(chance=20, pellets=8)\n\nAll functions can also have a rounding specified (number of decimals).\n\nVariables you don't specify default to 0 (pellets default to 1 and rounding to 2)" + "\n\n"
+                    commentText = commentText.replace("AresManual", "")
+
+                else:
+                    self.comment(comment, message)
+                    break
         except:
             #If something went wrong (most probably in the calcuations) write an apology
             message = "It seems you have given an unsupported argument. Use !AresManual to get the list of commands and how to use them\n\nIf you are certain you inputed everything correctly contact /u/Aereskiko or visit my GitHub Page"
