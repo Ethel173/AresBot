@@ -18,7 +18,7 @@ def findCrit(page):
     chance = ChanceSearch.group(1)
 
 
-    CritMultiplierAreaMatch = '<a href="/wiki/Critical_Hit#Critical_Damage_Multiplier" title="Critical Hit">Crit Multiplier</a></h3><div class="pi-data-value pi-font">2.0x</div></div><div class="pi-item pi-data pi-item-spacing pi-border-color"><h3 class="pi-data-label pi-secondary-font"><a href="/wiki/Status_Chance"'
+    CritMultiplierAreaMatch = '<a href="/wiki/Critical_Hit#Critical_Damage_Multiplier" title="Critical Hit">Crit Multiplier</a></h3><div class="pi-data-value pi-font">\d*\.\d*x</div></div><div class="pi-item pi-data pi-item-spacing pi-border-color"><h3 class="pi-data-label pi-secondary-font"><a href="/wiki/Status_Chance"'
     MultiplierAreaSearch = re.search(CritMultiplierAreaMatch, page)
     MultiplierArea = MultiplierAreaSearch.group(0)
 
@@ -28,4 +28,4 @@ def findCrit(page):
 
     return chance, multiplier
 
-print(findCrit(getSource("Hek")))
+print(findCrit(getSource("Paris")))
