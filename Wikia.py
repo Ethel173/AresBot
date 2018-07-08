@@ -90,5 +90,3 @@ def getStats(gun, mode):
         sc = findStatus(getSource(gun))
         pellets = findPellets(getSource(gun))
         return sc, pellets
-
-print(getStats("Tigris_Prime", "status"))

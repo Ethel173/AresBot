@@ -1,5 +1,6 @@
 #I apologize for ugly math, but IDE's don't let you write propper math expressions
 # pylint: disable=W0612
+from Wikia import getStats
 
 
 def rnd(n, m):
@@ -53,7 +54,11 @@ class Calculator(object):
     def __init__(self):
         self.komb = KombinatoryCalculator(0)
 
-    def critChance(self, crit=0, pellets=1, multishot=0, extra=0, rounding=2):
+    def critChance(self, weapon="Na", crit=0, pellets=1, multishot=0, extra=0, rounding=2):
+        if not weapon == "Na":
+            weapon = weapon.replace(" ", "_")
+            crit, pellets = getStats(weapon, "crit")
+
         oCc = crit
         #A = crit, B = extra shot
 
@@ -97,7 +102,12 @@ class Calculator(object):
             message = "Seeing that your starting crit chance was over 100% you are guaranteed to get crits on everything.\nHowever you have a " + str(round(pA*100,r)) + "% chance of getting one or more crits of higher type per trigger pull.\nOn average you should get " + str(round(avC,r)) + " higher crits per trigger pull"
         return message
 
-    def statusProcs(self, chance=0, multiplier=0, pellets=1, multishot=0, rounding = 2):
+    def statusProcs(self, weapon = "Na", chance=0, multiplier=0, pellets=1, multishot=0, rounding = 2):
+        if not weapon == "Na":
+            weapon = weapon.replace(" ", "_")
+            chance, pellets = getStats(weapon, "status")
+
+
         #A = proc, B = extra shot
 
         #Convert given stats to decimal chance
