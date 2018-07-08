@@ -70,14 +70,19 @@ class Bot():
 
             for i in range(5):
                 #Searhing every comment for the call-functions
-                if re.search("critChance\((.*)\)", commentText, re.I|re.M):
+                if re.search("critChance\((.*?)\)", commentText, re.I|re.M):
                     #Ob is the entire snippet
-                    ob = re.search("critChance\((.*)\)", commentText, re.I|re.M)
+                    ob = re.search("critChance\((.*?)\)", commentText, re.I|re.M)
                     #Ob[1] is the string of arguments that are going to be passed to the function
                     #Calculator from the import being initialized
                     Calc = Calculator()
                     #first set up the method call as a string to format in the string of arguments
                     func = "critChance({})".format(ob[1])
+
+                    searchFunc = re.search("weapon([ =])*(.*)[, \)]", func) 
+                    if searchFunc:
+                        func = func.replace(searchFunc.group(2), "'{}'".format(searchFunc.group(2)))
+
                     command = "Calc."+func
                     #Get the return of the method
                     message = message + eval(command) + "\n\n"
@@ -85,9 +90,9 @@ class Bot():
                     foundCommand = True
 
                 #Searhing every comment for the call-functions
-                if re.search("statusProcs\((.*)\)", commentText, re.I|re.M):
+                if re.search("statusProcs\((.*?)\)", commentText, re.I|re.M):
                     #Ob is the entire snippet
-                    ob = re.search("statusProcs\((.*)\)", commentText, re.I|re.M)
+                    ob = re.search("statusProcs\((.*?)\)", commentText, re.I|re.M)
                     #Ob[1] is the string of arguments that are going to be passed to the function
                     #Calculator from the import being initialized
                     Calc = Calculator()
@@ -100,9 +105,9 @@ class Bot():
                     foundCommand = True
 
 
-                elif re.search("rareItem\((.*)\)", commentText, re.I|re.M):
+                elif re.search("rareItem\((.*?)\)", commentText, re.I|re.M):
                     #Ob is the entire snippet
-                    ob = re.search("rareItem\((.*)\)", commentText, re.I|re.M)
+                    ob = re.search("rareItem\((.*?)\)", commentText, re.I|re.M)
                     #Ob[1] is the string of arguments that are going to be passed to the function
                     #Calculator from the import being initialized
                     Calc = Calculator()
@@ -114,9 +119,9 @@ class Bot():
                     commentText = commentText.replace(func, "")
                     foundCommand = True
 
-                elif re.search("ehp\((.*)\)", commentText, re.I|re.M):
+                elif re.search("ehp\((.*?)\)", commentText, re.I|re.M):
                     #Ob is the entire snippet
-                    ob = re.search("ehp\((.*)\)", commentText, re.I|re.M)
+                    ob = re.search("ehp\((.*?)\)", commentText, re.I|re.M)
                     #Ob[1] is the string of arguments that are going to be passed to the function
                     #Calculator from the import being initialized
                     Calc = Calculator()

@@ -58,6 +58,8 @@ class Calculator(object):
         if not weapon == "Na":
             weapon = weapon.replace(" ", "_")
             crit, pellets = getStats(weapon, "crit")
+            crit = int(crit)
+            pellets = int(pellets)
 
         oCc = crit
         #A = crit, B = extra shot
@@ -80,11 +82,12 @@ class Calculator(object):
         front, back = bullets.split(".")
 
         #Runs a binomical distribution for both the extra pellet and with only the guaranteed ones
-        modPellets = int(pellets*int(front))
+        modPellets = int(front)
         #pAnB is the chance of A given not B
         pAnB = self.komb.Bino_over(modPellets, 1, cc)
         #pAgB is the chance of A given B
         pAgB = self.komb.Bino_over(modPellets+1,1,cc)
+        #pB is probability of B
         pB = float("0."+str(back))
         #pnB is probability of not B
         pnB = (1 - float("0."+str(back)))
