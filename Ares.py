@@ -71,6 +71,7 @@ class Bot():
             for i in range(5):
                 #Searhing every comment for the call-functions
                 if re.search("critChance\((.*?)\)", commentText, re.I|re.M):
+                    
                     #Ob is the entire snippet
                     ob = re.search("critChance\((.*?)\)", commentText, re.I|re.M)
                     #Ob[1] is the string of arguments that are going to be passed to the function
@@ -78,19 +79,20 @@ class Bot():
                     Calc = Calculator()
                     #first set up the method call as a string to format in the string of arguments
                     func = "critChance({})".format(ob[1])
-
-                    searchFunc = re.search("weapon([ =])*(.*)[, \)]", func) 
-                    if searchFunc:
-                        func = func.replace(searchFunc.group(2), "'{}'".format(searchFunc.group(2)))
-
                     command = "Calc."+func
                     #Get the return of the method
-                    message = message + eval(command) + "\n\n"
-                    commentText = commentText.replace(func, "")
-                    foundCommand = True
+                    try:    
+                        message = " \n\n" + str(ob[0]) + ":\n\n" + eval(command) + message + " \n\n"
+                        commentText = commentText.replace(func, "")
+                        foundCommand = True
+                    except Exception:
+                        message = " \n\n" + str(ob[0]) + ":\n\n" + "\n\nIt seems you have given some inputs that are not accepted. Please reffer to the manual" + message + " \n\n"
+                        foundCommand = True
+                        commentText = commentText.replace(func, "")
 
                 #Searhing every comment for the call-functions
-                if re.search("statusProcs\((.*?)\)", commentText, re.I|re.M):
+                elif re.search("statusProcs\((.*?)\)", commentText, re.I|re.M):
+                    
                     #Ob is the entire snippet
                     ob = re.search("statusProcs\((.*?)\)", commentText, re.I|re.M)
                     #Ob[1] is the string of arguments that are going to be passed to the function
@@ -100,12 +102,19 @@ class Bot():
                     func = "statusProcs({})".format(ob[1])
                     command = "Calc."+func
                     #Get the return of the method
-                    message = message + eval(command) + "\n\n"
-                    commentText = commentText.replace(func, "")
-                    foundCommand = True
+                    try:    
+                        message = " \n\n" + str(ob[0]) + ":\n\n" + eval(command) + message + " \n\n"
+                        commentText = commentText.replace(func, "")
+                        foundCommand = True
+                    except Exception:
+                        message = " \n\n" + str(ob[0]) + ":\n\n" + "\n\nIt seems you have given some inputs that are not accepted. Please reffer to the manual" + message + " \n\n"
+                        foundCommand = True
+                        commentText = commentText.replace(func, "")
+
 
 
                 elif re.search("rareItem\((.*?)\)", commentText, re.I|re.M):
+                    
                     #Ob is the entire snippet
                     ob = re.search("rareItem\((.*?)\)", commentText, re.I|re.M)
                     #Ob[1] is the string of arguments that are going to be passed to the function
@@ -115,11 +124,18 @@ class Bot():
                     func = "rareItem({})".format(ob[1])
                     command = "Calc."+func
                     #Get the return of the method
-                    message = message + eval(command) + "\n\n"
-                    commentText = commentText.replace(func, "")
-                    foundCommand = True
+                    try:    
+                        message = " \n\n" + str(ob[0]) + ":\n\n" + eval(command) + message + " \n\n"
+                        commentText = commentText.replace(func, "")
+                        foundCommand = True
+                    except Exception:
+                        message = " \n\n" + str(ob[0]) + ":\n\n" + "\n\nIt seems you have given some inputs that are not accepted. Please reffer to the manual" + message + " \n\n"
+                        foundCommand = True
+                        commentText = commentText.replace(func, "")
+
 
                 elif re.search("ehp\((.*?)\)", commentText, re.I|re.M):
+                    
                     #Ob is the entire snippet
                     ob = re.search("ehp\((.*?)\)", commentText, re.I|re.M)
                     #Ob[1] is the string of arguments that are going to be passed to the function
@@ -129,26 +145,36 @@ class Bot():
                     func = "ehp({})".format(ob[1])
                     command = "Calc."+func
                     #Get the return of the method
-                    message = message + eval(command) + "\n\n"
-                    commentText = commentText.replace(func, "")
-                    foundCommand = True
+                    try:    
+                        message = " \n\n" + str(ob[0]) + ":\n\n" + eval(command) + message + " \n\n"
+                        commentText = commentText.replace(func, "")
+                        foundCommand = True
+                    except Exception:
+                        message = " \n\n" + str(ob[0]) + ":\n\n" + "\n\nIt seems you have given some inputs that are not accepted. Please reffer to the manual" + message + " \n\n"
+                        foundCommand = True
+                        commentText = commentText.replace(func, "")
+
 
                 elif re.search("AresCommands", commentText, re.I|re.M):
-                    message = message + "Commands:\n\ncritChance(crit, pelets, multishot, extra)\n\nsatusProcs(chance, multiplier, pellets, multishot)\n\nrareItem(radiant, flawless, exceptional, intact)\n\nehp(armor, health, dr, qt, energy)\n\nAresManual\n\nAresCommands\n\n"
+                    message = "Commands:\n\ncritChance(weapon, crit, pelets, multishot, mods)\n\nsatusProcs(weapon, chance, mods, pellets, multishot)\n\nrareItem(radiant, flawless, exceptional, intact)\n\nehp(armor, health, dr, qt, energy)\n\nAresManual\n\nAresCommands\n\n" + message
                     commentText = commentText.replace("AresCommands", "")
                     foundCommand = True
 
                 elif re.search("AresManual", commentText, re.I|re.M):
-                    message = message + "User manual for AresBot:\n\n-critChance(crit(base), pellets, multishot, extra(argon scope, point strike etc.))\n\nThis returns the chance of you getting one or more crits per triggerpull and how any crits you should see per trigger pull.\n\n\n\n-statusProcs(chance(base), multiplier, pellets, multishot)\n\nGives the estimated amount of procs you get per triggerpull\n\n\n\n-rareItem(radiant, excepltional, flawless, intact)\n\nReturns the chance you have of getting a rare drop\n\n\n\n-EHP(health, armor, dr(damage reduction from abilities), energy, qt(efficiency))\n\nReturns your EHP (does not factor damage types in)\n\n\n\n-AresManual\n\nExtensive manual for AresBot\n\n\n\n-AresCommands\n\nList of commands\n\n\n\nCommands are case-insensitive so critChance is the same as cRiTcHaNcE.\n\nHowever multiple commands need to be separated, you can have some flavourtext after the command but there MUST be a newlinecharacter (hit enter) between the end of the command and any ')' bracket. So \n\n'[command] mesa without quick thinking [newline]\n [command] mesa with quick thinking'\n\nwill work fine\n\nWhen passing values name tha value it refers to. Example:\n\nstatusProcs(chance=20, pellets=8)\n\nAll functions can also have a rounding specified (number of decimals).\n\nVariables you don't specify default to 0 (pellets default to 1 and rounding to 2)" + "\n\n"
+                    message = "User manual for AresBot:\n\n-critChance(weapon, crit(base), pellets, multishot, mods(argon scope(135), point strike(150) etc.))\n\nThis returns the chance of you getting one or more crits per triggerpull and how any crits you should see per trigger pull.\n\n\n\n-statusProcs(weapon, chance(base), mods, pellets, multishot)\n\nGives the estimated amount of procs you get per triggerpull\n\n\n\n-rareItem(radiant, excepltional, flawless, intact)\n\nReturns the chance you have of getting a rare drop\n\n\n\n-EHP(health, armor, dr(damage reduction from abilities), energy, qt(efficiency))\n\nReturns your EHP (does not factor damage types in)\n\n\n\n-AresManual\n\nExtensive manual for AresBot\n\n\n\n-AresCommands\n\nList of commands\n\n\n\nCommands are case-insensitive so critChance is the same as cRiTcHaNcE.\n\nWhen passing values name tha value it refers to. Example:\n\nstatusProcs(chance=20, pellets=8)\n\nWhen passing a weapon name encase the name in quotations (double or single, but has to be the same on both sides). Weapon-stats are pulled from the wikia and are therefore dependent on it being up to date\n\nAll functions can also have a rounding specified (number of decimals).\n\nAll values should be numeric except for the weapon which should be the name of the weapon encased in quotes. Names must be spelled correctly and capitalized coorectly ('Tigris Prime' instead of 'tigris prime')\n\nVariables you don't specify default to 0 (pellets default to 1 and rounding to 2)" + message + "\n\n"
                     commentText = commentText.replace("AresManual", "")
                     foundCommand = True
 
                 else:
-                    if foundCommand == True:
-                        self.comment(comment, message)
+                    if foundCommand:
                         break
                     else:
                         pass
+            if foundCommand:
+                self.comment(comment, message)
+            else:
+                pass
+            
 
         except Exception:
             #If something went wrong (most probably in the calcuations) write an apology

@@ -54,7 +54,7 @@ class Calculator(object):
     def __init__(self):
         self.komb = KombinatoryCalculator(0)
 
-    def critChance(self, weapon="Na", crit=0, pellets=1, multishot=0, extra=0, rounding=2):
+    def critChance(self, weapon="Na", crit=0, pellets=1, multishot=0, mods=0, rounding=2):
         if not weapon == "Na":
             weapon = weapon.replace(" ", "_")
             crit, pellets = getStats(weapon, "crit")
@@ -67,7 +67,7 @@ class Calculator(object):
         #Convert given stats to decimal chance
         cc = crit/100
         multi = multishot/100
-        extra = extra/100
+        extra = mods/100
         extra += 1
         r = rounding
         cc = cc * extra
@@ -105,7 +105,7 @@ class Calculator(object):
             message = "Seeing that your starting crit chance was over 100% you are guaranteed to get crits on everything.\nHowever you have a " + str(round(pA*100,r)) + "% chance of getting one or more crits of higher type per trigger pull.\nOn average you should get " + str(round(avC,r)) + " higher crits per trigger pull"
         return message
 
-    def statusProcs(self, weapon = "Na", chance=0, multiplier=0, pellets=1, multishot=0, rounding = 2):
+    def statusProcs(self, weapon = "Na", chance=0, mods=0, pellets=1, multishot=0, rounding = 2):
         if not weapon == "Na":
             weapon = weapon.replace(" ", "_")
             chance, pellets = getStats(weapon, "status")
@@ -114,13 +114,13 @@ class Calculator(object):
         #A = proc, B = extra shot
 
         #Convert given stats to decimal chance
-        sc = chance/100
-        sm = multiplier/100
+        sc = int(chance)/100
+        sm = mods/100
         multi = multishot/100
         r = rounding
         #Splits the number into berfore and after the . so 17.6 would give 17 and 6, this is to factor in the chance of getting an extra shot
         multi = multi + 1
-        bullets = str(float(pellets*multi))
+        bullets = str(float(int(pellets)*multi))
         front, back = bullets.split(".")
         
         #caps chances over 100% as that breaks the math
@@ -129,7 +129,7 @@ class Calculator(object):
             chance = 1
 
         #cPc is status chance per pellet
-        cPp = 1-(1-chance)**(1/pellets)
+        cPp = 1-(1-chance)**(1/int(pellets))
         #pAnB is probability of A given not B
         pAnB = int(front) * cPp
         #pAgB is probability of A given B
@@ -142,7 +142,7 @@ class Calculator(object):
         pA = pAgB * pB + pAnB * pnB
         temp = "This gives an overall " + "{" +"0:.{}f".format(r)+"}"
         temp2 = " pellets with a " + "{" +"0:.{}f".format(r)+"}"
-        message = ("Due to multishot you'll either fire " + front + " pellets, or " + str(int(front)+1) + " pellets with a " + round(float("0."+str(back))*100,r) + "% chance of getting the extra shot.\nThat means that you have an estimated " + str(int(pAnB)) + " or " + str(int(pAgB)) + " guaranteed status procs per trigger pull respectively.\nThis gives an overall " + round(pA,r) + " status procs per trigger pull")
+        message = ("Due to multishot you'll either fire " + front + " pellets, or " + str(int(front)+1) + " pellets with a " + str(round(float("0."+str(back))*100,r)) + "% chance of getting the extra shot.\nThat means that you have an estimated " + str(int(pAnB)) + " or " + str(int(pAgB)) + " guaranteed status procs per trigger pull respectively.\nThis gives an overall " + str(round(pA,r)) + " status procs per trigger pull")
         return message
 
     def rareItem(self, radiant=0, flawless=0, exceptional=0, intact=0, rounding=2):
