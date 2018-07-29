@@ -157,7 +157,7 @@ class Calculator(object):
             tot += self.komb.Bino_over(exceptional, 1, 0.04)
         if intact > 0:
             tot += self.komb.Bino_over(intact, 1, 0.02)
-        message =  "You have a " +round((tot*100),r) + "% chance of getting one or more rare drops"
+        message =  "You have a " + str(round((tot*100),r)) + "% chance of getting one or more rare drops"
         return message
 
     def ehp(self, health=0, armor=0, shields=0, dr=0, rounding=0, energy=0, qt=0):
