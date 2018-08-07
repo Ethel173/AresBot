@@ -105,7 +105,7 @@ class Calculator(object):
             message = "Seeing that your starting crit chance was over 100% you are guaranteed to get crits on everything.\nHowever you have a " + str(round(pA*100,r)) + "% chance of getting one or more crits of higher type per trigger pull.\nOn average you should get " + str(round(avC,r)) + " higher crits per trigger pull"
         return message
 
-    def statusProcs(self, weapon = "Na", chance=0, mods=0, pellets=1, multishot=0, rounding = 2):
+    def statusProcs(self, weapon = "Na", status=0, mods=0, pellets=1, multishot=0, rounding = 2):
         if not weapon == "Na":
             weapon = weapon.replace(" ", "_")
             chance, pellets = getStats(weapon, "status")
@@ -160,7 +160,7 @@ class Calculator(object):
         message =  "You have a " + str(round((tot*100),r)) + "% chance of getting one or more rare drops"
         return message
 
-    def ehp(self, health=0, armor=0, shields=0, dr=0, rounding=0, energy=0, qt=0):
+    def ehp(self, health=0, armor=0, shields=0, dr=0, rounding=2, energy=0, qt=0):
         
         dr = dr/100
         QT = qt/100

@@ -140,7 +140,7 @@ class MathBot():
 
 
                 elif re.search("AresCommands", commentText, re.I|re.M):
-                    message = "Commands:\n\ncritChance(weapon, crit, pelets, multishot, mods)\n\nsatusProcs(weapon, chance, mods, pellets, multishot)\n\nrareItem(radiant, flawless, exceptional, intact)\n\nehp(armor, health, dr, qt, energy)\n\nAresManual\n\nAresCommands\n\n" + message
+                    message = "Commands:\n\ncritChance(weapon, crit, pelets, multishot, mods)\n\nsatusProcs(weapon, status, mods, pellets, multishot)\n\nrareItem(radiant, flawless, exceptional, intact)\n\nehp(armor, health, dr, qt, energy)\n\nAresManual\n\nAresCommands\n\n" + message
                     commentText = commentText.replace("AresCommands", "")
                     foundCommand = True
 
