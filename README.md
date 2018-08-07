@@ -21,7 +21,7 @@ Use: All values are optional. weapon defaults to none. crit, multishot and mods 
 Returns the chance of you getting a status proc and the average amount of procs per trigger event.
 
 Use: All values are optional. weapon defaults to none. status, multishot and mods default to 0, pellets default to 1 and rounding defaults to 2. the inclusion of a weapon will overwrite status and pellets, the weapon name must be encased by single or double quotes. status reffers to the base statuschance of the weapon, pellets reffers to the base ammount of pellets, multishot reffers to the multishot status and mods reffers to critchance mods. All percentages are to be given without "0." so in essence a dualstat mods would be mods=60. If you have multiple mods you can either sum them up, so two dual stat mods would be mods=120 or you could supply them with a + in between so mods=60+60.
-
+ 
 
 
   rareItem(radiant, flawless, exceptional, intact, rounding)
